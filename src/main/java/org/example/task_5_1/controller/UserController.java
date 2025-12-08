@@ -29,7 +29,8 @@ public class UserController {
 
     @GetMapping("/edit")
     public String showEditForm(@RequestParam("id") Long id, Model model) {
-        model.addAttribute("user", service.getById(id));
+        User user = service.getById(id);
+        model.addAttribute("user", user);
         return "user-form";
     }
 
@@ -39,7 +40,7 @@ public class UserController {
         return "redirect:/users";
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public String deleteUser(@RequestParam("id") Long id) {
         service.delete(id);
         return "redirect:/users";

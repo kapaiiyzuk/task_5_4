@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>User home</title>
+</head>
+<body>
+<div>
+    Logged in as: <b sec:authentication="name"></b>
+    <form th:action="@{/logout}" method="post" style="display:inline;">
+        <button type="submit">Logout</button>
+    </form>
+</div>
+<hr>
+<h2>User page</h2>
+<p><b>Username:</b><span th:text="${user.username}"></span></p>
+<p><b>First name:</b><span th:text="${user.firstName}"></span></p>
+<p><b>Last name:</b><span th:text="${user.lastName}"></span></p>
+<p><b>Email:</b><span th:text="${user.email}"></span></p>
+<div sec:authorize="hasRole('ADMIN')">
+    <a th:href="@{/admin/users}">Go to admin panel</a>
+</div>
+</body>
+</html>

@@ -1,39 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>User list</title>
 </head>
 <body>
-<h1>Users</h1>
+    <div>
+        Logged in as: <b sec:authentication="name"></b>
 
-<a th:href="@{/users/new}">Add new user</a>
+        <form th:action="@{/logout}" method="post" style="display:inline;">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+<hr>
+<h2>All users (ADMIN)</h2>
+<a th:href="@{/admin/users/new}">Add new user</a>
+<table border="1" cellpadding="5">
+    <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Email</th>
+        <th>Actions</th>
+    </tr>
 
-<table border="1">
-    <thread>
-        <tr>
-            <th>Id</th>
-            <th>First name</th>
-            <th>Last name</th>
-            <th>Email</th>
-            <th>Actions</th>
-        </tr>
-    </thread>
-    <tbody>
     <tr th:each="u : ${users}">
-        <td th:text="${u.id}">id</td>
-        <td th:text="${u.firstName}">firstName</td>
-        <td th:text="${u.lastName}">lastName</td>
-        <td th:text="${u.email}">email</td>
+        <td th:text="${u.id}"></td>
+        <td th:text="${u.username}"></td>
+        <td th:text="${u.firstName}"></td>
+        <td th:text="${u.lastName}"></td>
+        <td th:text="${u.email}"></td>
         <td>
-            <a th:href="@{/users/edit(id=${u.id})}">Edit</a>
-            <form th:action="@{/users/delete(id=${u.id})}" method="post" style="display:inline;">
-                <input type="hidden" name="_method" value="delete"/>
-                <button type="submit">Delete</button>
+            <a th:href="@{/admin/users/edit(id=${u.id})}">Edit</a>
+            <form th:action="@{/admin/users/delete(id=${u.id})}"
+                  method="post"
+                  style="display:inline;">
+                <button type="submit"
+                        onclick="return confirm('Delete user?')">
+                    Delete
+                </button>
             </form>
         </td>
     </tr>
-    </tbody>
 </table>
 </body>
 </html>

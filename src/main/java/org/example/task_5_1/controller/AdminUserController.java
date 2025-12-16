@@ -7,15 +7,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/users")
-public class UserController {
-    private final UserService service;
-    public UserController(UserService service) {
-        this.service = service;
+@RequestMapping("/admin/users")
+public class AdminUserController {
+    private final UserService userService;
+    public AdminUserController(UserService userService) {
+        this.userService = userService;
     }
     @GetMapping
     public String listUsers(Model model) {
-        model.addAttribute("users", service.getAll());
+        model.addAttribute("users", userService.getAll());
         return "users";
     }
     @GetMapping("/new")
@@ -23,23 +23,19 @@ public class UserController {
         model.addAttribute("user", new User());
         return "user-form";
     }
-
     @GetMapping("/edit")
     public String showEditForm(@RequestParam("id") Long id, Model model) {
-        User user = service.getById(id);
-        model.addAttribute("user", user);
+        model.addAttribute("user", userService.getById(id));
         return "user-form";
     }
-
     @PostMapping("/save")
     public String saveUser(@ModelAttribute("user") User user) {
-        service.save(user);
-        return "redirect:/login";
+        userService.save(user);
+        return "redirect:/admin/users";
     }
-
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     public String deleteUser(@RequestParam("id") Long id) {
-        service.delete(id);
-        return "redirect:/users";
+        userService.delete(id);
+        return "redirect:/admin/users";
     }
 }

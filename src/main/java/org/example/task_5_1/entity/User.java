@@ -15,6 +15,16 @@ public class User implements UserDetails {
     private String firstName;
     private String lastName;
     private String email;
+    private Integer age;
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
     @Column(nullable = false, unique = true)
     private String username;
     @Column(nullable = false)

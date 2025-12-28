@@ -21,7 +21,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         String redirect = "/user";
         for (GrantedAuthority a : authentication.getAuthorities()) {
             if ("ROLE_ADMIN".equals(a.getAuthority())) {
-                redirect = "/admin/users";  // вот так
+                redirect = "/admin/users";
                 break;
             }
         }

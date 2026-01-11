@@ -256,6 +256,7 @@
 
     async function api(url, options = {}) {
         const res = await fetch(url, {
+            credentials: 'same-origin',
             headers: { 'Content-Type': 'application/json' },
             ...options
         });
@@ -282,9 +283,7 @@
         const roles = await api('/api/roles');
 
         const options = roles.map(r =>
-            `<option value="${r.name}">${r.name.replace('ROLE_','')}</option>`
-        ).join('');
-
+            `<option value="${r.name}">${r.name.replace('ROLE_','')}</option>`)
         $('new-roles').innerHTML = options;
         $('edit-roles').innerHTML = options;
     }
@@ -297,7 +296,7 @@
         <td>${u.lastName ?? ''}</td>
         <td>${u.age ?? ''}</td>
         <td>${u.email ?? ''}</td>
-        <td>${(u.roles || []).map(r => '[' + r.replace('ROLE_','') + ']').join(' ')}</td>
+        <td>${(u.roles || []).map(r => '[' + r.replace('ROLE_', '') + ']').join(' ')}</td>
         <td><button class="btn btn-info btn-sm text-white" data-edit="${u.id}">Edit</button></td>
         <td><button class="btn btn-danger btn-sm" data-del="${u.id}">Delete</button></td>
       </tr>
@@ -364,7 +363,7 @@
         });
 
         e.target.reset();
-        await loadUsers(); // обновили без перезагрузки
+        await loadUsers();
     });
 
     $('editForm').addEventListener('submit', async (e) => {
@@ -380,7 +379,7 @@
                 lastName: $('edit-lastName').value,
                 age: $('edit-age').value ? +$('edit-age').value : null,
                 email: $('edit-email').value,
-                password: $('edit-password').value, // пусто => сервис оставит старый
+                password: $('edit-password').value,
                 roleNames: selectedValues($('edit-roles'))
             })
         });

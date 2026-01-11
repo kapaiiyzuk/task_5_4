@@ -22,10 +22,11 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain springFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))
                 .userDetailsService(userDetailsService)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login", "/css/**", "/js/**", "/images/**", "/", "/login").permitAll()
+                        .requestMatchers("/api/me").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/api/**").hasRole("ADMIN")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/user").hasAnyRole("USER", "ADMIN")
